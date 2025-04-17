@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TODO APP</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #f1f1f1;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1, h4 {
+            font-family: 'Verdana', sans-serif;
+            color: #f9a825;
+        }
+
+        #form {
+            text-align: center;
+            padding: 30px;
+            margin-top: 20px;
+            background-color: #333;
+            border-radius: 8px;
+            width: 40%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #title, #des {
+            width: 80%;
+            padding: 15px;
+            margin: 10px 0;
+            background-color: #444;
+            color: white;
+            border: none;
+            border-radius: 8px;
+        }
+
+        #title {
+            font-size: 16px;
+        }
+
+        #des {
+            font-size: 14px;
+            height: 120px;
+            resize: none;
+        }
+
+        button {
+            background-color: #f9a825;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #f57f17;
+        }
+
+        .post-container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: #2c2c2c;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .post {
+            margin-bottom: 20px;
+        }
+
+        .post h4 {
+            color: #ffeb3b;
+        }
+
+        .post p {
+            color: #b0bec5;
+            font-size: 14px;
+        }
+
+        .edit, .delete {
+            background-color: #4caf50;
+            padding: 8px 16px;
+            margin-right: 10px;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .edit:hover {
+            background-color: #388e3c;
+        }
+
+        .delete:hover {
+            background-color: #d32f2f;
+        }
+
+        .update-form {
+            color: black;
+            display: none; /* Initially hide the update form */
+            padding: 20px;
+            background-color: #eeeeee;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .update-form input,
+        .update-form textarea {
+            width: 90%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .update-form button {
+            background-color: #2196f3;
+            padding: 12px 20px;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+        }
+
+        .update-form button:hover {
+            background-color: #1976d2;
+        }
+    </style>
+</head>
+<body>
+
+    <form id="form" action="/submit" method="post">
+        <input type="text" placeholder="Write Title" name="title" id="title" required><br>
+        <textarea name="descreption" id="des" placeholder="Write Your Thought" required></textarea><br>
+        <button type="submit">Add Task</button>
+    </form>
+    <hr>
+
+    <% if (post) { %>
+        <% let i = 0 %>
+        <% post.forEach((data) => { %>
+            <div class="post-container">
+                <% i++ %>
+                <div class="post">
+                    <h4>Title: <%= data.title %></h4>
+                    <p>Description: <%= data.des %></p>
+                </div>
+                <a href="/delete/<%= i %>" class="delete">Delete</a>
+                <button class="edit">Edit</button>
+
+                <form class="update-form" action="/edit/<%= i %>" method="get">
+                    <input type="text" placeholder="Update Title" name="title" value="<%= data.title %>" required><br>
+                    <textarea name="des" placeholder="Update Description" required><%= data.des %></textarea><br>
+                    <button type="submit">Update</button>
+                </form>
+            </div>
+        <% }); %>
+    <% } %>
+
+    <script>
+        document.querySelectorAll(".edit").forEach((button) => {
+            button.addEventListener("click", function() {
+                // Get the corresponding form for the clicked button
+                const form = this.nextElementSibling;  // The form comes right after the button
+                form.style.display = form.style.display === "none" || form.style.display === "" ? "block" : "none";
+            });
+        });
+    </script>
+<p style="text-align: center; color: #444;">Made By Rachit Kumar</p>
+</body>
+</html>
